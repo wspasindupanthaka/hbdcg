@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Hello</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Rubik' rel='stylesheet'>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body style='background-color: #f2f4f4 !important; font-family: Rubik, sans-serif; color: #4c4c4c' onload="getDataSet();"
+    id="templateBody">
+
+    <div style='height: 40px'></div>
+    <div class="container">
+        <div style='margin: auto; max-width: 653px; background-color: #ffffff; box-shadow: 0 7px 14px 0 rgba(0, 0, 0, 0.08); border-radius: 4px;'>
+
+            <img src='https://sltc.kriyo.net/images/email/email-patten.png' width='100%'>
+
+
+            <div style='padding: 20px 60px !important'>
+                <h3 style='font-weight: 200 !important; margin-bottom: 15px !important; text-align: center; color: #006eff;'>
+                    #CGTurns18
+                </h3>
+
+
+                <div id="userContent" style="display: none;">
+                    <div style="text-align: center">
+                        <div id="imgStyle1" class="message">
+                            <img src="" id="image" style="width: 150px; height: 150px; border-radius: 100px; border-color: #006eff; border-style: dotted;"
+                            />
+                        </div>
+                    </div>
+
+                    <h1 style='font-weight: 200 !important; margin-bottom: 15px !important; text-align: center;'> Hi, I'm
+                        <b style='color: #006eff;' id="userFirstName"></b>
+                        <br>
+                        <span id="userDesignation" style="margin: 0 !important; font-size: 20px;"></span>
+                    </h1>
+                    <div style="text-align: center; margin-top: 25px;">
+                        <h2 style="font-weight: 200 !important;">
+                            <span id="userAboutMe"></span>
+                        </h2>
+                    </div>
+                </div>
+
+                <div id="errorContent" style="display: none;">
+                    <h1 style="color: #ef3648; text-align: center;">User not found!</h1>
+                </div>
+
+                <div style='text-align: center; margin-top: 45px;'>
+                    <img src='https://sltc.kriyo.net/images/email/kriyo_icon.svg' style='height: 30px; width: 30px;'>
+                    <br>
+                    <a href='https://www.kriyo.net' target='_blank' style='text-decoration: none; color: #858585; font-size: 10px'>www.kriyo.net</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+        function getDataSet() {
+            document.getElementById('userContent').style = 'display: none;';
+            document.getElementById('errorContent').style = 'display: none;';
+
+            var templateBody = document.getElementById('templateBody');
+
+            var metaInfo = window.location.href;
+            var iam = metaInfo.split('?iam=')[1].split('.html')[0]
+            console.log(iam);
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open('GET', '../hbdcg/user/load?iam=' + iam, false); // false for synchronous request
+            xmlHttp.send();
+            var status = xmlHttp.status;
+
+            console.log(status);
+
+            loadedPersonalData = JSON.parse(xmlHttp.responseText);
+            console.log(loadedPersonalData);
+
+            if (status === 200) {
+                document.getElementById('userContent').style = 'display: block;';
+                document.getElementById('errorContent').style = 'display: none;';
+
+                document.title = 'Hello! I\'m ' + loadedPersonalData.name;
+                document.getElementById('userFirstName').innerHTML = loadedPersonalData.name;
+                document.getElementById('image').src = loadedPersonalData.image;
+                document.getElementById('userDesignation').innerHTML = '(' + loadedPersonalData.designation + ')';
+                document.getElementById('userAboutMe').innerHTML = loadedPersonalData.aboutme;
+                templateBody.style.display = 'block';
+            } else {
+                document.getElementById('userContent').style = 'display: none;';
+                document.getElementById('errorContent').style = 'display: block;';
+            }
+
+        }
+    </script>
+
+</body>
+
+</html>

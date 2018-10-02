@@ -6,7 +6,7 @@
 	<groupId>it.codegen.hbdcg</groupId>
 	<artifactId>hbdcg</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>hbdcg</name>
 	<description>Demo project for Spring Boot</description>
@@ -41,9 +41,24 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>it.codegen.tbx.framework</groupId>
+            <artifactId>travelbox_commons</artifactId>
+            <version>1.0.5-SNAPSHOT</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
+        </dependency>
+
+
+    </dependencies>
 
 	<build>
+        <finalName>hbdcg</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
